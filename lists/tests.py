@@ -6,15 +6,11 @@ from django.http import HttpRequest
 
 class HomePageTest(TestCase):
 
-    def test_root_url_resolves_to_home_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func, home_page)
-    
+    #    previous two tests have been combined into one and simplified using 
+    #    django's built-in test client.   
     def test_home_page_returns_correct_html(self):
-        request = HttpRequest()
-        response = home_page(request)
-        html = response.content.decode('utf8')
-        self.assertTrue(html.startswith('<html>'))
-        self.assertIn('<title>To-Do Lists</title>', html)
-        self.assertTrue(html.endswith('</html>'))
-        
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'home.html')
+
+    #    Rather than testing hard coded 'constants' this now tests our implementation.
+
